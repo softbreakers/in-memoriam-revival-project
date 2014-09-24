@@ -1,0 +1,35 @@
+Requisitos:
+* Se precisa Java SE 1.7 o superior
+* Se precisa conexión a internet
+
+Instrucciones:
+
+1. Arrancar la aplicación ejecutando directamente como usuario con privilegios de administración.
+2. Si aparece el mensaje 'Hosts file not found. Introduce your hosts file path as argument.', localice 
+   el archivo 'hosts' en su sistema operativo e introduzca la ruta completa como parámetro.
+3. Si todo ha ido bien, la aplicación mostrará en la ventana principal diversos datos, y se habrá descargado
+   de internet la versión actual del bloque redireccionador.
+4. Pulsar el botón 'Install' o 'Update'.
+5. Para desinstalar, pulse el botón 'Uninstall'.
+
+Como funciona:
+
+La aplicación facilita la instalación y desinstalación del bloque redireccionador para los servidores del proyecto
+In Memoriam Revival. Básicamente descarga el listado de servidores con su IP y los introduce en el 
+archivo "hosts" de su sistema operativo. Si el programa consigue reiniciar la caché DNS no será necesario
+reiniciar.
+
+La instalación y desinstalación también puede realizarse manualmente editando con un editor de textos el 
+archivo "hosts" de sus sistema operativo. Para ello puede acceder al listado actual de redirecciones en:
+
+http://inmemoriam.softbreakers.com/iplist.txt
+
+La segunda línea de dicho archivo indica la versión del mismo. El bloque debe copiarse y pegarse tal cual al final 
+del archivo "hosts".
+
+Tenga en cuenta que permitir la instalación de redirecciones en su PC desde sitios que no confíe puede crear
+un problema de seguridad ya que podrían redirigirse dominios importantes a clones de los mismos con la finalidad
+de robarle sus credenciales de acceso. Es por ello que se indica el modo de realizar la configuración manualmente.
+
+Por otro lado, revisar el listado de servidores del proyecto, puede desvelarle información importante que debería 
+descubrir durante el juego.
