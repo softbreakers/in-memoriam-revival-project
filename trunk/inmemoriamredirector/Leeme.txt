@@ -1,3 +1,5 @@
+In Memoriam Revival Project Redirector
+
 Requisitos:
 * Se precisa Java SE 1.7 o superior
 * Se precisa conexión a internet
@@ -12,15 +14,21 @@ Instrucciones:
 4. Pulsar el botón 'Install' o 'Update'.
 5. Para desinstalar, pulse el botón 'Uninstall'.
 
+----------------------------------------------------------------------------------------------
+
 Como funciona:
 
 La aplicación facilita la instalación y desinstalación del bloque redireccionador para los servidores del proyecto
 In Memoriam Revival. Básicamente descarga el listado de servidores con su IP y los introduce en el 
 archivo "hosts" de su sistema operativo. Si el programa consigue reiniciar la caché DNS no será necesario
-reiniciar.
+reiniciar. En caso de que sea necesario reiniciar, la aplicación lo indicará.
 
 La instalación y desinstalación también puede realizarse manualmente editando con un editor de textos el 
-archivo "hosts" de sus sistema operativo. Para ello puede acceder al listado actual de redirecciones en:
+archivo "hosts" de su sistema operativo. Un listado de localizaciones del archivo "hosts" se puede encontrar en:
+
+http://en.wikipedia.org/wiki/Hosts_(file)#Location_in_the_file_system 
+
+El listado actualizado de redirecciones se encuentra en:
 
 http://inmemoriam.softbreakers.com/iplist.txt
 
