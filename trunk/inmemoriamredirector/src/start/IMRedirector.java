@@ -1,42 +1,55 @@
 package start;
+import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import java.awt.Window.Type;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 
 public class IMRedirector {
 
 	private JFrame frmInMemoriamRevival;
 	
-	private static String strHostFilePath = "c:\\windows\\system32\\drivers\\etc\\hosts";
+	private static String strHostFilePath = null;
 	
 	private final String beginBlock = "# IN MEMORIAL REVIVAL PROJECT BEGIN BLOCK";
 	private final String endBlock   = "# IN MEMORIAL REVIVAL PROJECT END BLOCK";
-	private final String urlIpList = "http://inmemoriam.softbreakers.com/iplist.txt";
+	public final String urlHome   = "http://inmemoriam.softbreakers.com";
+	private final String urlIpList = urlHome + "/iplist.txt";
 	
-	private int beginLine = -1, endLine = -1;
 	private String actualVersion = "";
 	
 	private String webVersion = "";
 	private List<String> webIpList = null;
 	
 	private String lastError = "";
+	
+	private boolean isWindows = false;
+	private boolean isMac = false;
+	private List<String> versNumbers = null;
 
 	/**
 	 * Launch the application.
@@ -70,29 +83,90 @@ public class IMRedirector {
 	 */
 	private void initialize() {
 		frmInMemoriamRevival = new JFrame();
-		frmInMemoriamRevival.setType(Type.UTILITY);
+		frmInMemoriamRevival.setIconImage(Toolkit.getDefaultToolkit().getImage(IMRedirector.class.getResource("/start/fenix_ico_trans.png")));
 		frmInMemoriamRevival.setResizable(false);
-		frmInMemoriamRevival.setTitle("In Memoriam Revival Project");
-		frmInMemoriamRevival.setBounds(100, 100, 272, 88);
+		frmInMemoriamRevival.setTitle("In Memoriam Revival 1.0");
+		frmInMemoriamRevival.setBounds(100, 100, 272, 201);
 		frmInMemoriamRevival.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmInMemoriamRevival.getContentPane().setLayout(null);
 		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		frmInMemoriamRevival.setLocation(dim.width/2-frmInMemoriamRevival.getSize().width/2, dim.height/2-frmInMemoriamRevival.getSize().height/2);
+		
 		final JButton btnInstall = new JButton("Install");
-		btnInstall.setBounds(10, 11, 89, 23);
+		//btnInstall.setIcon(new ImageIcon(IMRedirector.class.getResource("/start/fenix_logo_trans.ico")));
+		btnInstall.setBounds(10, 125, 89, 23);
 		frmInMemoriamRevival.getContentPane().add(btnInstall);
 		
 		final JButton btnUninstall = new JButton("Uninstall");
-		btnUninstall.setBounds(164, 11, 89, 23);
+		//btnUninstall.setIcon(new ImageIcon(IMRedirector.class.getResource("/start/fenix_logo_trans.ico")));
+		btnUninstall.setBounds(167, 125, 89, 23);
 		frmInMemoriamRevival.getContentPane().add(btnUninstall);
 		
 		final JLabel lblStatus = new JLabel("Scanning...");
 		lblStatus.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblStatus.setBounds(0, 45, 266, 14);
+		lblStatus.setBounds(10, 159, 256, 14);
 		frmInMemoriamRevival.getContentPane().add(lblStatus);
+		
+		String strOS = System.getProperty("os.name");
+		String strOSVersion = System.getProperty("os.version");
+		String strOSlower = strOS.toLowerCase(Locale.ENGLISH);
+		
+		isWindows = strOSlower.contains("windows");
+		isMac = strOSlower.contains("os x");
+		versNumbers = new ArrayList<String>(Arrays.asList(strOSVersion.split("\\.")));
+		
+		// http://lopica.sourceforge.net/os.html
+		// http://en.wikipedia.org/wiki/Hosts_(file)#Location_in_the_file_system
+		// https://developer.apple.com/library/mac/technotes/tn2002/tn2110.html
+		if (strHostFilePath == null) {
+			if (isWindows) {
+				if (strOSlower.contains("me") || strOSlower.contains("98")) { 
+					strHostFilePath = System.getenv("WINDIR") + "\\hosts";
+				}
+				else {
+					strHostFilePath = System.getenv("SYSTEMROOT") + "\\system32\\drivers\\etc\\hosts";
+				}
+			}
+			else if (isMac) { 
+				isMac = true;
+				if ((versNumbers.size() > 1) && (versNumbers.get(0)=="10")) {
+					try {
+						Integer subVers = Integer.parseInt(versNumbers.get(1));
+						if (subVers >= 2) {
+							strHostFilePath = "/etc/hosts";
+						}
+					}
+					catch (NumberFormatException e) {
+						
+					}
+				}
+			}
+		}
+		
+		if (strHostFilePath != null) {  // Test if file exists
+			File testFile = new File(strHostFilePath);
+			if (!testFile.isFile()) {
+				strHostFilePath = null;
+			}
+		}
+		
+		if (strHostFilePath == null) { // Hosts file path not detected. Exit
+			JOptionPane.showMessageDialog(frmInMemoriamRevival, "Hosts file not found. Introduce your hosts file path as argument.\r\n" +
+		       "'IMRedirector.jar [ABSOLUTE_PATH_AND_FILENAME]'\r\n" +
+			   "Example: 'IMRedirector.jar c:\\windows\\hosts'");
+			System.exit(0);
+		}
 		
 		lblStatus.setText(findBlock());
 		
 		btnUninstall.setEnabled(!actualVersion.isEmpty());
+		
+		JLabel lblOS = new JLabel("New label");
+		lblOS.setBounds(41, 0, 89, 14);
+		frmInMemoriamRevival.getContentPane().add(lblOS);
+		
+		lblOS.setText(strOS);
 		
 		if (getIPList()) {
 			btnInstall.setEnabled(!actualVersion.equals(webVersion));
@@ -104,15 +178,94 @@ public class IMRedirector {
 			btnInstall.setEnabled(false);
 		}
 		
+		
+		JLabel lblHostsFolder = new JLabel("New label");
+		lblHostsFolder.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblHostsFolder.setBounds(10, 21, 256, 14);
+		frmInMemoriamRevival.getContentPane().add(lblHostsFolder);
+		
+		lblHostsFolder.setText("Hosts file: " + strHostFilePath);
+		
+		JLabel lblOSVersion = new JLabel("New label");
+		lblOSVersion.setBounds(198, 0, 58, 14);
+		frmInMemoriamRevival.getContentPane().add(lblOSVersion);
+		
+		lblOSVersion.setText(strOSVersion);
+		
+		JLabel lblRedirectorBlock = new JLabel("Redirector block versions :");
+		lblRedirectorBlock.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblRedirectorBlock.setBounds(10, 46, 138, 14);
+		frmInMemoriamRevival.getContentPane().add(lblRedirectorBlock);
+		
+		final JLabel lblBlockInstalled = new JLabel("New label");
+		lblBlockInstalled.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblBlockInstalled.setBounds(98, 65, 89, 14);
+		frmInMemoriamRevival.getContentPane().add(lblBlockInstalled);
+		
+		JLabel lblBlockWeb = new JLabel("New label");
+		lblBlockWeb.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblBlockWeb.setBounds(98, 84, 75, 14);
+		frmInMemoriamRevival.getContentPane().add(lblBlockWeb);
+		
+		JLabel lblNewLabel = new JLabel("Installed: ");
+		lblNewLabel.setBounds(41, 65, 58, 14);
+		frmInMemoriamRevival.getContentPane().add(lblNewLabel);
+		
+		JLabel lblWeb = new JLabel("Web: ");
+		lblWeb.setBounds(41, 84, 58, 14);
+		frmInMemoriamRevival.getContentPane().add(lblWeb);
+		
+		
+		lblBlockInstalled.setText(actualVersion.isEmpty()?"--":actualVersion);
+		lblBlockWeb.setText(webVersion.isEmpty()?"--":webVersion);
+		
+		JLabel lblNewLabel_1 = new JLabel("OS:");
+		lblNewLabel_1.setBounds(10, 0, 34, 14);
+		frmInMemoriamRevival.getContentPane().add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("OS Version:");
+		lblNewLabel_2.setBounds(120, 0, 73, 14);
+		frmInMemoriamRevival.getContentPane().add(lblNewLabel_2);
+		
+		JButton btnWeb = new JButton("");
+		btnWeb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (Desktop.isDesktopSupported()) {
+					try {
+						Desktop.getDesktop().browse(new URI(urlHome));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (URISyntaxException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		btnWeb.setIcon(new ImageIcon(IMRedirector.class.getResource("/start/fenix_ico_trans.png")));
+		btnWeb.setBounds(183, 41, 73, 73);
+		frmInMemoriamRevival.getContentPane().add(btnWeb);
+
 		btnUninstall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				lastError = "";
 				if (!actualVersion.isEmpty()) {
 					if (removeBlock()) {
-						lblStatus.setText("In Memoriam Block removed");
-						btnUninstall.setEnabled(false);
-						btnInstall.setEnabled(true);
-						btnInstall.setText("Install");
+						findBlock();
+						if (actualVersion.isEmpty()) {
+							lblStatus.setText("In Memoriam Block removed");
+							btnUninstall.setEnabled(false);
+							btnInstall.setEnabled(true);
+							btnInstall.setText("Install");
+							lblBlockInstalled.setText("--");
+							
+							cleanDNSCache();
+							}							
+						}
+						else {
+							lblStatus.setText("Unknown error. In Memorial Block not removed");
+						}
 					}
 					else {
 						lblStatus.setText(lastError);
@@ -120,7 +273,7 @@ public class IMRedirector {
 					}
 				}
 			}
-		});
+		);
 		
 		btnInstall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -134,6 +287,7 @@ public class IMRedirector {
 								btnUninstall.setEnabled(false);
 								btnInstall.setEnabled(true);
 								btnInstall.setText("Install");
+								lblBlockInstalled.setText("--");
 							}
 							else {
 								lblStatus.setText("Unknown error. In Memorial Block not removed");
@@ -153,6 +307,10 @@ public class IMRedirector {
 								btnUninstall.setEnabled(true);
 								btnInstall.setEnabled(false);
 								btnInstall.setText("Update");
+								lblBlockInstalled.setText(actualVersion);
+								
+								cleanDNSCache();
+							
 							}
 							else {
 								lblStatus.setText("Unknown error. In Memorial Block not inserted");
@@ -176,8 +334,8 @@ public class IMRedirector {
 
 		    //now read the file line by line...
 		    int lineNum = 0;
-		    beginLine = -1;
-		    endLine = -1;
+		    int beginLine = -1;
+		    int endLine = -1;
 		    actualVersion = "";
 		    while (scanner.hasNextLine()) {
 		        String line = scanner.nextLine();
@@ -309,5 +467,44 @@ public class IMRedirector {
 			lastError ="There is no IP Block to install";
 			return false;
 		}		
+	}
+	
+	private boolean execCommand(List<String> commands) {	
+	    ProcessBuilder pb = new ProcessBuilder(commands);
+	    Process process;
+		try {
+			process = pb.start();
+		} catch (IOException e1) {
+			lastError = "Error before executing: " + commands.toString();
+			return false;
+		}
+	
+	    //Check result
+	    try {
+			if (process.waitFor() == 0) {
+			    return true;
+			}
+		} catch (InterruptedException e) {
+			lastError = "Exception waiting for external command";
+		}
+	
+	    //Abnormal termination
+	    lastError = "Error after executing: " + commands.toString();
+	    return false;
+	}	
+	
+	public void cleanDNSCache() {
+		List<String> ipconfigCmd = new ArrayList<String>();
+		ipconfigCmd.add("ipconfig.exe");
+		ipconfigCmd.add("/flushdns");
+		if (isWindows) {
+			if (!execCommand(ipconfigCmd)) {
+				JOptionPane.showMessageDialog(null, "Restart computer for changes to take effect.\r\nError when trying to clear DNS cache:\r\n" + lastError);
+				lastError = "";
+			}
+		}
+		else { 
+			JOptionPane.showMessageDialog(null, "Restart computer or clear DNS cache for changes to take effect.");			
+		}
 	}
 }
