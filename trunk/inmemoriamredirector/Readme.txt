@@ -7,7 +7,7 @@ Requisites:
 Instructions:
 
 1. Start application from user with administration privileges.
-   For Windows, launch IMRedirectorLauncher.exe.
+   For Windows, launch IMRedirectorLauncher.exe. An authorization window will pop up.
    For MAC, launch IMRedirector.jar.
 2. If it's showed message 'Hosts file not found. Introduce your hosts file path as argument.', find the 
    'hosts' archive in your operative system and enter absolute path and file name as parameter.
