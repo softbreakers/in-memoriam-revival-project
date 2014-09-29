@@ -7,6 +7,8 @@ Requisites:
 Instructions:
 
 1. Start application from user with administration privileges.
+   For Windows, launch IMRedirectorLauncher.exe.
+   For MAC, launch IMRedirector.jar.
 2. If it's showed message 'Hosts file not found. Introduce your hosts file path as argument.', find the 
    'hosts' archive in your operative system and enter absolute path and file name as parameter.
 3. If okey, application will show main window with several data, and it will have downloaded actual version
