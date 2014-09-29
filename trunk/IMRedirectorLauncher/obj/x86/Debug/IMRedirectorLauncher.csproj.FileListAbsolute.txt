@@ -1,0 +1,10 @@
+C:\Users\Xupete\AppData\Local\Temporary Projects\IMRedirectorLauncher\bin\Debug\IMRedirectorLauncher.exe
+C:\Users\Xupete\AppData\Local\Temporary Projects\IMRedirectorLauncher\bin\Debug\IMRedirectorLauncher.pdb
+C:\Users\Xupete\AppData\Local\Temporary Projects\IMRedirectorLauncher\obj\x86\Debug\IMRedirectorLauncher.exe
+C:\Users\Xupete\AppData\Local\Temporary Projects\IMRedirectorLauncher\obj\x86\Debug\IMRedirectorLauncher.pdb
+C:\Users\Xupete\documents\visual studio 2010\Projects\IMRedirectorLauncher\IMRedirectorLauncher\bin\Debug\IMRedirectorLauncher.exe
+C:\Users\Xupete\documents\visual studio 2010\Projects\IMRedirectorLauncher\IMRedirectorLauncher\bin\Debug\IMRedirectorLauncher.pdb
+C:\Users\Xupete\documents\visual studio 2010\Projects\IMRedirectorLauncher\IMRedirectorLauncher\obj\x86\Debug\IMRedirectorLauncher.exe
+C:\Users\Xupete\documents\visual studio 2010\Projects\IMRedirectorLauncher\IMRedirectorLauncher\obj\x86\Debug\IMRedirectorLauncher.pdb
+C:\Users\Xupete\Documents\Visual Studio 2010\Projects\IMRedirectorLauncher\IMRedirectorLauncher\bin\Debug\IMRedirectorLauncher.exe.config
+C:\Users\Xupete\documents\visual studio 2010\Projects\IMRedirectorLauncher\IMRedirectorLauncher\obj\x86\Debug\IMRedirectorLauncher.csprojResolveAssemblyReference.cache

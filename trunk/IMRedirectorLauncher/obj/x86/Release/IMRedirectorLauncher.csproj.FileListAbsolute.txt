@@ -1,0 +1,5 @@
+C:\Users\Xupete\Documents\Visual Studio 2010\Projects\IMRedirectorLauncher\IMRedirectorLauncher\bin\Release\IMRedirectorLauncher.exe.config
+C:\Users\Xupete\Documents\Visual Studio 2010\Projects\IMRedirectorLauncher\IMRedirectorLauncher\bin\Release\IMRedirectorLauncher.exe
+C:\Users\Xupete\Documents\Visual Studio 2010\Projects\IMRedirectorLauncher\IMRedirectorLauncher\bin\Release\IMRedirectorLauncher.pdb
+C:\Users\Xupete\Documents\Visual Studio 2010\Projects\IMRedirectorLauncher\IMRedirectorLauncher\obj\x86\Release\IMRedirectorLauncher.exe
+C:\Users\Xupete\Documents\Visual Studio 2010\Projects\IMRedirectorLauncher\IMRedirectorLauncher\obj\x86\Release\IMRedirectorLauncher.pdb
