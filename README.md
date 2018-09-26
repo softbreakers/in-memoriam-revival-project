@@ -3,8 +3,8 @@ Automatically exported from code.google.com/p/in-memoriam-revival-project
 
 ****************
 
-Hello. This is the source code repository for the redirector application used in the "In Memoriam Revival" project. Check http://inmemoriam.softbreakers.com for more details.
+This is the source code repository for the redirector application used in the "In Memoriam Revival" project. Check http://inmemoriam.softbreakers.com for more details.
 
 ****************
 
-Hola. Este es el repositorio de código fuente de la aplicación de redirección utilizada en el proyecto "In Memoriam Revival". Revise http://inmemoriam.softbreakers.com para más detalles.
+Este es el repositorio de código fuente de la aplicación de redirección utilizada en el proyecto "In Memoriam Revival". Revise http://inmemoriam.softbreakers.com para más detalles.
